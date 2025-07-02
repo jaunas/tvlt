@@ -1,0 +1,21 @@
+proxy: socks4://localhost:45462
+
+channels:
+  - name: TV1
+    id: org.tv1
+    urlSource:
+      type: static
+      streamUrl: http://localhost/tv1.m3u8
+  - name: TV2
+    id: org.tv2
+    urlSource:
+      type: api # api is cached
+      apiUrl: http://localhost/api
+      jsonPath: $.data.stream_url
+  - name: TV3
+    id: org.tv3
+    urlSource:
+      type: api
+      apiUrl: http://localhost/api2
+      jsonPath: $.response.url
+      useProxy: true

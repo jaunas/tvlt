@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Przekierowanie wszystkich żądań do katalogu public
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L,QSA]
+
+    # Upewnij się, że pliki statyczne w public są dostępne
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^public/(.*)$ public/$1 [L]
+
+    # Przekierowanie na index.php w katalogu public
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^public/(.*)$ public/index.php [L]
+</IfModule>

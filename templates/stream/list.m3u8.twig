@@ -1,0 +1,5 @@
+#EXTM3U url-tvg="{{ hostUrl }}/guide.xml"
+{% for channel in channels %}
+#EXTINF:-1 tvg-id="{{ channel.tvgId }}",{{ channel.tvgName }}
+{{ hostUrl }}/channel/{{ channel.tvgId }}.m3u8
+{% endfor %}

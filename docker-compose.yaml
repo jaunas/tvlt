@@ -1,0 +1,28 @@
+services:
+  php:
+    build:
+      context: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - '80:80'
+    working_dir: /var/www/html
+    user: "${USER_UID:-1000}:${USER_GID:-1000}"
+  db:
+    image: "mariadb:11.6"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  phpmyadmin:
+    image: "phpmyadmin:5.2"
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - "PMA_ARBITRARY=1"
+  node:
+    image: "node:latest"
+    user: "${USER_UID:-1000}:${USER_GID:-1000}"
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
