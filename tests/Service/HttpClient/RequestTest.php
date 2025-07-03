@@ -50,6 +50,7 @@ class RequestTest extends TestCase
         if ($proxyUrl) {
             $this->assertEquals($proxyUrl, $attempt['options']['proxy']);
         }
+        $this->assertEquals(Request::TIMEOUT, $attempt['options']['timeout']);
     }
 
     public function proxyProvider(): array

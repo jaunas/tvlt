@@ -10,6 +10,7 @@ use GuzzleHttp\HandlerStack;
 class Request implements RequestInterface
 {
     public const MAX_ATTEMPTS = 20;
+    public const TIMEOUT = 30;
     public const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0';
 
     private bool $useProxy = false;
@@ -41,7 +42,8 @@ class Request implements RequestInterface
         $options = [
             'headers' => [
                 'User-Agent' => self::USER_AGENT,
-            ]
+            ],
+            'timeout' => self::TIMEOUT,
         ];
 
         if ($this->useProxy) {

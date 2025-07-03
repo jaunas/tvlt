@@ -3,8 +3,6 @@
 namespace App\Tests\Service\Cache;
 
 use App\Exception\CacheException;
-use App\Service\Cache\CacheFactory;
-use App\Service\Cache\CacheInterface;
 use App\Service\Cache\CacheRepositoryInterface;
 use App\Service\Cache\ChannelCacheRefresher;
 use App\Service\Config\DataType\ApiUrlSourceInterface;

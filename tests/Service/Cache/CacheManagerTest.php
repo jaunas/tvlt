@@ -2,6 +2,7 @@
 
 namespace App\Tests\Service\Cache;
 
+use App\Exception\RequestException;
 use App\Service\Cache\CacheManager;
 use App\Service\Cache\ChannelCacheRefresher;
 use App\Service\Config\DataType\ApiUrlSourceInterface;
@@ -59,6 +60,26 @@ class CacheManagerTest extends TestCase
 
         $channelCacheManagerMock = $this->createMock(ChannelCacheRefresher::class);
         $channelCacheManagerMock->expects($this->once())->method('refresh')->with($channelStub);
+
+        $cacheManager = new CacheManager($channelCacheManagerMock, $configStub);
+        $cacheManager->cache();
+    }
+
+    public function testSkipChannelIfFailed(): void
+    {
+        $failedChannelStub = $this->createConfiguredMock(ChannelInterface::class, [
+            'getUrlSource' => $this->createStub(ApiUrlSourceInterface::class),
+        ]);
+        $secondChannelStub = $this->createConfiguredMock(ChannelInterface::class, [
+            'getUrlSource' => $this->createStub(ApiUrlSourceInterface::class),
+        ]);
+        $configStub = $this->createConfiguredMock(ConfigInterface::class, [
+            'getChannels' => [$failedChannelStub, $secondChannelStub],
+        ]);
+
+        $channelCacheManagerMock = $this->createMock(ChannelCacheRefresher::class);
+        $channelCacheManagerMock->expects($this->exactly(2))->method('refresh')
+            ->willThrowException(RequestException::maxAttemptsExceeded());
 
         $cacheManager = new CacheManager($channelCacheManagerMock, $configStub);
         $cacheManager->cache();
