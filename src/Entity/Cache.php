@@ -15,7 +15,7 @@ class Cache implements CacheInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'cache')]
     #[ORM\JoinColumn(nullable: false)]
     private ?ChannelInterface $channel;
 

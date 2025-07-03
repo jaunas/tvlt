@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Cache\CacheInterface;
 use App\Service\Config\DataType\ChannelInterface;
 use App\Service\Config\DataType\ConfigInterface;
 use App\Service\Config\DataType\UrlSourceInterface;
@@ -27,6 +28,9 @@ class Channel implements ChannelInterface
 
     #[ORM\ManyToOne(inversedBy: 'channels')]
     private ?ConfigInterface $config = null;
+
+    #[ORM\OneToOne(mappedBy: 'channel', cascade: ['persist'], orphanRemoval: true)]
+    private ?CacheInterface $cache = null;
 
     public function __construct(string $tvgName, string $tvgId, UrlSourceInterface $urlSource)
     {
